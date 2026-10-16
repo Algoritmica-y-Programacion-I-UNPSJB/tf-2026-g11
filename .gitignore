@@ -1,0 +1,23 @@
+# Compilación y ejecutables C
+*.o
+*.obj
+*.exe
+*.out
+*.app
+build/
+bin/
+dist/
+
+# Archivos de depuración y temporales
+*.dSYM/
+*.pdb
+*.ilk
+
+# Entornos y editores
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
