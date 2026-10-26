@@ -4,8 +4,8 @@
 **Interfaz / Modalidad:** Gráfica (GUI interactiva) — 1 jugador vs Banca  
 
 ## Integrantes y aportes
-- Ramiro Gigena
-- Rodrigo Román Cabezas Barrios
+- Ramiro Gigena (@Ramiruchiz)
+- Rodrigo Román Cabezas Barrios (@RodrigoRoman47)
 
 ## Reglas y alcance
 Ruleta gráfica con paño completo interactivo. Selección de fichas por denominación, cálculo automático de premios por probabilidad, balance acumulado y visualización del número ganador.
