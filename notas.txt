@@ -1,0 +1,17 @@
+EJECUTAR PROGRAMA:
+gcc main.c puntaje.c -o main.exe
+./main.exe
+
+Archivo de cambios a hacer / notas para integrantes del grupo:
+
+ARCHIVO: (PUNTAJE.C)
+- Puntaje.c void guardar_puntaje(const char *nombre_archivo, Jugador j) 
+Implementar la funcion como int para que retorne 1 en caso  de no poder guardar el puntaje.
+
+-void mostrar_puntajes(const char *nombre_archivo) 
+Implementar la funcion como int para que retorne 1 en caso de no poder leer algun puntaje.
+
+
+ARCHIVO (MAIN.C)
+-     printf("Ingrese su nombre de usuario: ");
+Verificar que no supere los 50 caracteres.
