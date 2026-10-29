@@ -13,11 +13,26 @@ int main() {
     printf("   ¡BIENVENIDO A LA RULETA DE CASINO!    \n");
     printf("=========================================\n");
 
-    // Pedir el nombre al usuario
-    printf("Ingrese su nombre de usuario: ");
-    if (fgets(jugador.nombre, MAX_NOMBRE, stdin) != NULL) {
-    jugador.nombre[strcspn(jugador.nombre, "\n")] = '\0';
-}
+    printf("Ingrese su nombre de usuario (maximo %d caracteres): ", MAX_NOMBRE - 1);
+    if (fgets(jugador.nombre, MAX_NOMBRE, stdin) == NULL) {
+        printf("\nNo se pudo leer el nombre.\n");
+        return 1;
+    }
+
+    size_t largo_nombre = strcspn(jugador.nombre, "\n");
+    // Verifica si el nombre ingresado es demasiado largo
+    if (jugador.nombre[largo_nombre] == '\n') {
+        jugador.nombre[largo_nombre] = '\0';
+    } else {
+        int caracter_siguiente = getchar();
+        if (caracter_siguiente != '\n' && caracter_siguiente != EOF) {
+            while (caracter_siguiente != '\n' && caracter_siguiente != EOF) {
+                caracter_siguiente = getchar();
+            }
+            printf("El nombre supera el maximo de %d caracteres.\n", MAX_NOMBRE - 1);
+            return 1;
+        }
+    }
 
     printf("¡Hola, %s! Bienvenido a nuestra ruleta.\n", jugador.nombre);
     // REGLAS
@@ -39,8 +54,12 @@ int main() {
         
         if (scanf("%d", &opcion) != 1) { //VERIFICAR 
             printf("Entrada invalida. Por favor, ingrese un numero.\n");
-            // Limpiar buffer de entrada en caso de error
-            while (getchar() != '\n');
+            int caracter;
+            while ((caracter = getchar()) != '\n' && caracter != EOF) {
+            }
+            if (caracter == EOF) {
+                break;
+            }
             continue;
         }
 
