@@ -1,7 +1,7 @@
 #ifndef PUNTAJE_H
 #define PUNTAJE_H
 
-#define MAX_NOMBRE 50
+#define MAX_NOMBRE 51
 
 // Estructura datos jugador
 typedef struct {
@@ -10,7 +10,7 @@ typedef struct {
 } Jugador;
 
 // Prototipos de funciones
-void guardar_puntaje(const char *nombre_archivo, Jugador j);
-void mostrar_puntajes(const char *nombre_archivo);
+int guardar_puntaje(const char *nombre_archivo, Jugador j);
+int mostrar_puntajes(const char *nombre_archivo);
 
 #endif

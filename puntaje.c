@@ -1,43 +1,54 @@
 #include <stdio.h>
-#include <errno.h>
 #include "puntaje.h"
+#include <errno.h>
 
-// Guarda la estructura del jugador al final del archivo binario
-void guardar_puntaje(const char *nombre_archivo, Jugador j) {
+int guardar_puntaje(const char *nombre_archivo, Jugador j) {
     if (nombre_archivo == NULL) {
-        fprintf(stderr, "Error: el nombre del archivo de puntajes es nulo.\n");
-        return;
+        fprintf(stderr, "ERROR: El nombre del archivo es nulo.\n");
+        return 1;
     }
 
     FILE *archivo = fopen(nombre_archivo, "ab");
     if (archivo == NULL) {
-        perror("Error al abrir el archivo de puntajes");
-        return;
+        printf("ERROR: No se pudo abrir o crear el archivo de puntajes.\n");
+        return 1;
     }
 
     if (fwrite(&j, sizeof(Jugador), 1, archivo) != 1) {
-        perror("Error al guardar el puntaje");
+        printf("ERROR: No se pudo guardar el puntaje correctamente en el archivo.\n");
+        if (errno == ENOSPC) {
+            printf("El disco está lleno.\n");
+        }
+        fclose(archivo);
+        return 1;
     }
+
     if (fclose(archivo) != 0) {
-        perror("Error al cerrar el archivo de puntajes");
+        printf("ERROR: Hubo un problema al cerrar el archivo de puntajes.\n");
+        return 1;
     }
+
+    return 0;
 }
 
-// Lee y muestra todos los registros guardados en el archivo binario
-void mostrar_puntajes(const char *nombre_archivo) {
+int mostrar_puntajes(const char *nombre_archivo) {
     if (nombre_archivo == NULL) {
-        fprintf(stderr, "Error: el nombre del archivo de puntajes es nulo.\n");
-        return;
+        fprintf(stderr, "ERROR: El nombre del archivo es nulo.\n");
+        return 1; 
     }
 
     FILE *archivo = fopen(nombre_archivo, "rb");
     if (archivo == NULL) {
-        if (errno == ENOENT) {
+        if (errno == ENOENT) { //Archivo no encontrado
             printf("\nAún no hay registros de puntajes anteriores.\n");
+            return 0; 
+        } else if (errno == EACCES) {
+            printf("ERROR: El archivo existe pero no tienes permisos de lectura.\n");
+            return 1;
         } else {
-            perror("Error al abrir el archivo de puntajes");
+            printf("ERROR: Fallo al abrir el archivo de lectura");
+            return 1;
         }
-        return;
     }
 
     Jugador j;
@@ -47,23 +58,21 @@ void mostrar_puntajes(const char *nombre_archivo) {
     printf("%-30s | %s\n", "JUGADOR", "PUNTAJE/SALDO");
     printf("----------------------------------------\n");
 
-    while (1) {
-        size_t bytes_leidos = fread(&j, 1, sizeof(Jugador), archivo);
-        if (bytes_leidos == sizeof(Jugador)) {
-            printf("%-30s | %d\n", j.nombre, j.saldo);
-        } else if (ferror(archivo)) {
-            perror("Error al leer el archivo de puntajes");
-            break;
-        } else if (bytes_leidos != 0) {
-            fprintf(stderr, "Error: registro de puntaje incompleto.\n");
-            break;
-        } else {
-            break;
-        }
+    while (fread(&j, sizeof(Jugador), 1, archivo) == 1) {
+        printf("%-30s | %d\n", j.nombre, j.saldo);
     }
     printf("========================================\n");
 
-    if (fclose(archivo) != 0) {
-        perror("Error al cerrar el archivo de puntajes");
+    if (ferror(archivo)) {
+        printf("ERROR: Ocurrió un fallo físico o corrupción al leer el archivo.\n");
+        fclose(archivo);
+    return 1;
     }
+
+    if (fclose(archivo) != 0) {
+        printf("ERROR: Hubo un problema al cerrar el archivo de lectura.\n");
+        return 1;
+    }
+
+    return 0; 
 }

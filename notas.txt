@@ -5,13 +5,16 @@ gcc main.c puntaje.c -o main.exe
 Archivo de cambios a hacer / notas para integrantes del grupo:
 
 ARCHIVO: (PUNTAJE.C)
-- Puntaje.c void guardar_puntaje(const char *nombre_archivo, Jugador j) 
-Implementar la funcion como int para que retorne 1 en caso  de no poder guardar el puntaje.
-
--void mostrar_puntajes(const char *nombre_archivo) 
-Implementar la funcion como int para que retorne 1 en caso de no poder leer algun puntaje.
-
 
 ARCHIVO (MAIN.C)
--     printf("Ingrese su nombre de usuario: ");
-Verificar que no supere los 50 caracteres.
+
+ARCHIVO (RULETA.C)
+- implementar las apuestas:
+• Semipleno o Caballo (Split): A 2 números adyacentes. Paga 17:1.
+• Calle o Transversal (Street): A 3 números en una fila horizontal. Paga 11:1.
+• Cuadro o Esquina (Corner/Square): A un bloque de 4 números. Paga 8:1.
+• Seisena o Línea (Six Line): A 6 números (dos filas de tres). Paga 5:1
+Especiales:
+• Vecinos del cero (Voisins du zéro): Cubre 17 números alrededor del cero utilizando 9 fichas en distintas combinaciones.
+• Tercios del cilindro (Tiers du cylindre): Cubre 12 números opuestos al cero.
+• Huérfanos (Orphelins): Cubre los 8 números restantes en los dos huecos libres de la rueda
